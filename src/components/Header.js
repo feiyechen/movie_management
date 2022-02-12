@@ -1,8 +1,6 @@
 import React from 'react';
-import { useState } from 'react';
 
 const Header = (props) => {
-  const [formShowing, setFormShowing] = useState(false);
 
   return (
     <header className='grid grid-col-1-200px'>
@@ -10,18 +8,11 @@ const Header = (props) => {
       <button 
         className='btn btn-primary grid-x-right' 
         type='button'
-        onClick={()=>{
-          if(formShowing){
-            props.onHideForm();
-            setFormShowing(false);
-          }else{
-            props.onShowForm();
-            setFormShowing(true);
-          }
-        }}
+        onClick={props.onToggleForm}
       >Add movie</button>
     </header>
   );
+
 };
 
 export default Header;

@@ -17,11 +17,12 @@ const App = () => {
   const [formVisible, setformVisible] = useState(false);
 
   const addMovie = (newMovie)=>{
+    localStorage.setItem("movies", JSON.stringify([...movies, newMovie]));
     setMovies([...movies, newMovie]);
     setModal({
       msg: `Movie 《${newMovie.title}》 was added successfully!`,
       visible: true
-    })
+    });
   }
 
   //use props to pass down this function
@@ -29,11 +30,12 @@ const App = () => {
     const newMovies = movies.filter((item)=>{
       return item.id !== id;
     });
+    localStorage.setItem("movies", JSON.stringify(newMovies));
     setMovies(newMovies);
     setModal({
       msg: `The movie with ID ${id} was deleted successfully!`,
       visible: true
-    })
+    });
   }
 
   const hideModal = ()=>{
@@ -43,33 +45,25 @@ const App = () => {
     })
   }
 
-  const showForm = ()=>{
-    setformVisible(true);
-  }
-
-  const hideForm = ()=>{
-    setformVisible(false);
+  const toggleForm = ()=>{
+    setformVisible(!formVisible);
   }
 
   //useEffect will fire off when the component finish loading
   useEffect(()=>{
 
-    const fakeDB = [
-      {id: 1, title: "WandaVision", description: "This is showing on Disney"},
-      {id: 2, title: "Avengers", description: "This is showing on Netflix"},
-      {id: 3, title: "End Game", description: "This is showing on HBO"},
-      {id: 4, title: "Spider man", description: "This is showing on Prime video"},
-      {id: 5, title: "Iron man", description: "This is showing on Youtube"}
-    ]
-
-    setMovies(fakeDB);
+    if(localStorage.getItem("movies"))
+    {
+      const newMovies = JSON.parse(localStorage.getItem("movies"));
+      setMovies(newMovies);
+    }
 
   }, []); //the [] means calling the function once
   
   return (
     <div className='container'>
       <Modal onHide={hideModal} modalState={modal}/>
-      <Header onShowForm={showForm} onHideForm={hideForm}/>
+      <Header onToggleForm={toggleForm}/>
       <Searchbox />
       <main>
         <Movieform onAddMovie={addMovie} visible={formVisible}/>
