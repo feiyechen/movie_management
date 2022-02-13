@@ -16,6 +16,19 @@ const App = () => {
   });
   const [formVisible, setformVisible] = useState(false);
 
+  const filterMovie = (input)=>{
+    let newMovies = JSON.parse(localStorage.getItem("movies")).filter((item)=>{
+      return item.title.includes(input);
+    });
+
+    //if user deletes all characters in the searchbox
+    if(input === ""){
+      newMovies = JSON.parse(localStorage.getItem("movies"));
+    }
+
+    setMovies(newMovies);
+  }
+
   const addMovie = (newMovie)=>{
     localStorage.setItem("movies", JSON.stringify([...movies, newMovie]));
     setMovies([...movies, newMovie]);
@@ -64,7 +77,7 @@ const App = () => {
     <div className='container'>
       <Modal onHide={hideModal} modalState={modal}/>
       <Header onToggleForm={toggleForm}/>
-      <Searchbox />
+      <Searchbox onFilterMovie={filterMovie}/>
       <main>
         <Movieform onAddMovie={addMovie} visible={formVisible}/>
         <Movies movies={movies} onDeleteMovie={deleteMovie}/>
