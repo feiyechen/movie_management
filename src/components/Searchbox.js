@@ -10,7 +10,7 @@ const Searchbox = (props) => {
 
       <form action="" className='grid grid-col-1'>
         <input 
-          type="text" placeholder='Enter Movie Title' 
+          type="text" placeholder='Enter Movie Title To Search' 
           className='form-control' id='filter' 
           value={searchBox}
           onChange={(e)=>{
